@@ -1361,5 +1361,37 @@ document.addEventListener('DOMContentLoaded',init);
 })();
 </script>
 
+  <script>
+document.addEventListener('DOMContentLoaded', function () {
+  // ===== 1) Botão da primeira etapa -> vai para a próxima etapa =====
+  const startBtn = document.getElementById('btn-start');
+  if (startBtn) {
+    startBtn.addEventListener('click', function (e) {
+      e.preventDefault();
+      const currentStep = document.getElementById('step-offer');
+      const nextStep = document.getElementById('step-register');
+
+      if (currentStep) currentStep.classList.remove('active');
+      if (nextStep) nextStep.classList.add('active');
+    });
+  }
+
+  // ===== 2) Vídeo da última etapa -> força reprodução =====
+  const videoIframe = document.querySelector('iframe[src*="pandavideo"], iframe[src*="player"], iframe[id*="video"]');
+  if (videoIframe) {
+    const src = videoIframe.getAttribute('src') || '';
+
+    if (src && !src.includes('autoplay=')) {
+      const separator = src.includes('?') ? '&' : '?';
+      videoIframe.setAttribute('src', src + separator + 'autoplay=1&muted=1');
+    }
+
+    videoIframe.setAttribute('allow', 'autoplay; fullscreen; picture-in-picture; clipboard-write');
+    videoIframe.setAttribute('allowfullscreen', 'true');
+    videoIframe.setAttribute('loading', 'eager');
+  }
+});
+</script>
+
 </body>
 </html>
