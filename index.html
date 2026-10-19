@@ -1393,5 +1393,45 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 </script>
 
+  <script>
+(function () {
+  function safeGoTo(stepId) {
+    if (typeof window.goTo === 'function') {
+      window.goTo(stepId);
+      return;
+    }
+
+    document.querySelectorAll('.step').forEach(function (el) {
+      el.classList.toggle('active', el.id === 'step-' + stepId);
+    });
+  }
+
+  const map = {
+    'btn-start': 'register',
+    'btn-cadastrar': 'linked',
+    'btn-jogar': 'game',
+    'btn-levantar': 'withdraw',
+    'btn-confirm-express': 'error',
+    'btn-confirm-iban': 'error',
+    'btn-resolver': 'security',
+    'btn-liberar': 'almost',
+    'btn-final-saque': 'bonus'
+  };
+
+  document.addEventListener('click', function (event) {
+    const el = event.target.closest('button, a');
+    if (!el) return;
+
+    const id = el.id || '';
+    const target = map[id];
+
+    if (target) {
+      event.preventDefault();
+      safeGoTo(target);
+    }
+  });
+})();
+</script>
+
 </body>
 </html>
